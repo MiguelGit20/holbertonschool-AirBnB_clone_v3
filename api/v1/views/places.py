@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from models.city import City
+from models.user import User
 from flask import jsonify, make_response, request
 
 
@@ -34,7 +35,7 @@ def places_per_city(city_id=None):
         if 'user_id' not in req_json:
             return make_response(jsonify({'error': 'Missing user_id'}), 400)
         u_id = req_json['user_id']
-        user_obj = storage.get('User', u_id)
+        user_obj = storage.get(User, u_id)
         if user_obj is None:
             return make_response(jsonify({'error': 'Not found'}), 404)
         if 'name' not in req_json:
@@ -42,7 +43,6 @@ def places_per_city(city_id=None):
 
         new_instance = Place(**req_json)
         new_instance.city_id = city_id
-        new_instance.user_id = u_id
         new_instance.save()
         return make_response(jsonify(new_instance.to_dict()), 201)
 
