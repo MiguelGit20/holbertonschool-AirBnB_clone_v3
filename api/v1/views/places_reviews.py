@@ -9,6 +9,7 @@ from models.place import Place
 from models.review import Review
 from flask import jsonify, make_response, request
 
+
 @app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'])
 def review_per_place(place_id=None):
     """
@@ -21,7 +22,7 @@ def review_per_place(place_id=None):
     if request.method == 'GET':
         all_review = storage.all(Review)
         review_places = [obj.to_json() for obj in all_review.values()
-                       if obj.place_id == place_id]
+                         if obj.place_id == place_id]
         return jsonify(review_places)
 
     if request.method == 'POST':
@@ -42,6 +43,7 @@ def review_per_place(place_id=None):
         new_object.save()
         return make_response(jsonify(new_object.to_json()), 201)
 
+
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def retrieve_review_objs_id(review_id):
     """Retrieves the list of all Place objects with a specified id."""
@@ -53,7 +55,7 @@ def retrieve_review_objs_id(review_id):
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(review_id):
+def deletes_places_reviews_route(review_id):
     """Deletes an object."""
     obj = storage.get(Review, review_id)
     if obj is None:
@@ -64,7 +66,7 @@ def delete(review_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
-def update(review_id):
+def updates_places_reviews_route(review_id):
     """Updates an object."""
     obj = storage.get(Review, review_id)
     if obj is None:
