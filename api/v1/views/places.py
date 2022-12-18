@@ -19,7 +19,7 @@ def places_per_city(city_id=None):
         return make_response(jsonify({'error': 'Not found'}), 404)
 
     if request.method == 'GET':
-        all_places = storage.all('Place')
+        all_places = storage.all(Place)
         city_places = [obj.to_json() for obj in all_places.values()
                        if obj.city_id == city_id]
         return jsonify(city_places)
