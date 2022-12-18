@@ -13,17 +13,20 @@ from flask import jsonify, make_response, request
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
 def places_per_city(city_id=None):
     """Places route to handle http method for requested places by city."""
-    city_obj = storage.get(City, city_id)
-    if city_obj is None:
-        return make_response(jsonify({'error': 'Not found'}), 404)
 
     if request.method == 'GET':
+        city_obj = storage.get(City, city_id)
+        if city_obj is None:
+            return make_response(jsonify({'error': 'Not found'}), 404)
         all_places = storage.all(Place)
         city_places = [obj.to_dict() for obj in all_places.values()
                        if obj.city_id == city_id]
         return jsonify(city_places)
 
     if request.method == 'POST':
+        city_obj = storage.get(City, city_id)
+        if city_obj is None:
+            return make_response(jsonify({'error': 'Not found'}), 404)
         req_json = request.get_json()
         if req_json is None:
             return make_response(jsonify({'error': 'Not a JSON'}), 400)
