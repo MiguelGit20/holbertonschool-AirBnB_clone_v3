@@ -26,19 +26,21 @@ def places_per_city(city_id=None):
     if request.method == 'POST':
         req_json = request.get_json()
         if req_json is None:
-            return make_response(jsonify({'error': 'Not found'}), 404)
-        user_id = req_json.get("user_id")
-        if user_id is None:
+            return make_response(jsonify({'error': 'Not a JSON'}), 400)
+        if 'user_id' not in req_json:
             return make_response(jsonify({'error': 'Missing user_id'}), 400)
-        user_obj = storage.get('User', user_id)
+        if 'name' not in req_json:
+            return make_response(jsonify({'error': 'Missing name'}), 400)
+
+        u_id = req_json['user_id']
+        user_obj = storage.get('User', u_id)
         if user_obj is None:
             return make_response(jsonify({'error': 'Not found'}), 404)
-        if req_json.get("name") is None:
-            return make_response(jsonify({'error': 'Missing name'}), 400)
-        new_object = Place(**req_json)
-        new_object.city_id = city_id
-        new_object.save()
-        return make_response(jsonify(new_object.to_dict()), 201)
+
+        new_instance = Place(**req_json)
+        new_instance.city_id = city_id
+        new_instance.save()
+        return make_response(jsonify(new_instance.to_dict()), 201)
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
