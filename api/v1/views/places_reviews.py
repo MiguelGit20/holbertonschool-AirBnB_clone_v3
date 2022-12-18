@@ -15,17 +15,20 @@ from flask import jsonify, make_response, request
                  methods=['GET', 'POST'], strict_slashes=False)
 def review_per_place(place_id):
     """Review route to handle http method for requested reviews by place."""
-    place_obj = storage.get(Place, place_id)
-    if place_obj is None:
-        return make_response(jsonify({'error': 'Not found'}), 404)
 
     if request.method == 'GET':
+        place_obj = storage.get(Place, place_id)
+        if place_obj is None:
+            return make_response(jsonify({'error': 'Not found'}), 404)
         all_review = storage.all(Review)
         review_places = [obj.to_dict() for obj in all_review.values()
                          if obj.place_id == place_id]
         return jsonify(review_places)
 
     if request.method == 'POST':
+        place_obj = storage.get(Place, place_id)
+        if place_obj is None:
+            return make_response(jsonify({'error': 'Not found'}), 404)
         req_json = request.get_json()
         if req_json is None:
             return make_response(jsonify({'error': 'Not a JSON'}), 400)
