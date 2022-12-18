@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Create a new view for State objects
+Create a new view for User objects
 that handles all default RESTFul API actions.
 """
 from api.v1.views import app_views
@@ -46,8 +46,10 @@ def creates_instance_user_route():
     obj_attr = request.get_json()
     if obj_attr is None:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    if 'name' not in obj_attr:
-        return make_response(jsonify({'error': 'Missing name'}), 400)
+    if 'email' not in obj_attr:
+        return make_response(jsonify({'error': 'Missing email'}), 400)
+    if 'password' not in obj_attr:
+        return make_response(jsonify({'error': 'Missing password'}), 400)
     new_instance = User(**obj_attr)
     new_instance.save()
     return make_response(jsonify(new_instance.to_dict()), 201)
