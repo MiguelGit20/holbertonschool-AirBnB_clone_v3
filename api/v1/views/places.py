@@ -32,16 +32,16 @@ def places_per_city(city_id=None):
             return make_response(jsonify({'error': 'Not a JSON'}), 400)
         if 'user_id' not in req_json:
             return make_response(jsonify({'error': 'Missing user_id'}), 400)
-        if 'name' not in req_json:
-            return make_response(jsonify({'error': 'Missing name'}), 400)
-
         u_id = req_json['user_id']
         user_obj = storage.get('User', u_id)
         if user_obj is None:
             return make_response(jsonify({'error': 'Not found'}), 404)
+        if 'name' not in req_json:
+            return make_response(jsonify({'error': 'Missing name'}), 400)
 
         new_instance = Place(**req_json)
         new_instance.city_id = city_id
+        new_instance.user_id = u_id
         new_instance.save()
         return make_response(jsonify(new_instance.to_dict()), 201)
 
