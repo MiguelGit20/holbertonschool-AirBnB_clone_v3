@@ -10,7 +10,7 @@ from flask import jsonify, make_response, request
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
-def retrieve_user_objs():
+def retrieve_user_objs_route():
     """Retrieves the list of all User objects."""
     objs = storage.all(User).values()
     objs_list = []
@@ -20,7 +20,7 @@ def retrieve_user_objs():
 
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
-def retrieve_user_objs_id(user_id):
+def retrieve_user_objs_id_route(user_id):
     """Retrieves the list of all User objects with a specified id."""
     obj = storage.get(User, user_id)
     if obj is None:
@@ -30,7 +30,7 @@ def retrieve_user_objs_id(user_id):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(user_id):
+def deletes_user_route(user_id):
     """Deletes an object."""
     obj = storage.get(User, user_id)
     if obj is None:
@@ -41,7 +41,7 @@ def delete(user_id):
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
-def creates_instance():
+def creates_instance_user_route():
     """Creates a new object."""
     obj_attr = request.get_json()
     if obj_attr is None:
@@ -54,7 +54,7 @@ def creates_instance():
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
-def update(user_id):
+def updates_user_route(user_id):
     """Updates an object."""
     obj = storage.get(User, user_id)
     if obj is None:

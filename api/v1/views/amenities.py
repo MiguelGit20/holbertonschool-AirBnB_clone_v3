@@ -10,7 +10,7 @@ from flask import jsonify, make_response, request
 
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
-def retrieve_amenity_objs():
+def retrieve_amenity_objs_route():
     """Retrieves the list of all Amenity objects."""
     objs = storage.all(Amenity).values()
     objs_list = []
@@ -20,7 +20,7 @@ def retrieve_amenity_objs():
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
-def retrieve_amenity_objs_id(amenity_id):
+def retrieve_amenity_objs_id_route(amenity_id):
     """Retrieves the list of all amenity objects with a specified id."""
     obj = storage.get(Amenity, amenity_id)
     if obj is None:
@@ -30,7 +30,7 @@ def retrieve_amenity_objs_id(amenity_id):
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(amenity_id):
+def deletes_amenity_route(amenity_id):
     """Deletes an object."""
     obj = storage.get(Amenity, amenity_id)
     if obj is None:
@@ -41,7 +41,7 @@ def delete(amenity_id):
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
-def creates_instance():
+def creates_instance_amenity_route():
     """Creates a new object."""
     obj_attr = request.get_json()
     if obj_attr is None:
@@ -54,7 +54,7 @@ def creates_instance():
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
-def update(amenity_id):
+def updates_amenities_route(amenity_id):
     """Updates an object."""
     obj = storage.get(Amenity, amenity_id)
     if obj is None:

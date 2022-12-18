@@ -11,7 +11,7 @@ from flask import jsonify, make_response, request
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
-def retrieve_city_objs(state_id):
+def retrieve_city_objs_route(state_id):
     """Retrieves the list of all City objects by a state."""
     obj_id = storage.get(State, state_id)
     if obj_id is not None:
@@ -25,7 +25,7 @@ def retrieve_city_objs(state_id):
 
 
 @app_views.route('/citites/<city_id>', methods=['GET'], strict_slashes=False)
-def retrieve_city_obj(city_id):
+def retrieve_city_obj_route(city_id):
     """Retrieves a city with a specified id."""
     obj_id = storage.get(City, city_id)
     if obj_id is not None:
@@ -35,7 +35,7 @@ def retrieve_city_obj(city_id):
 
 @app_views.route('/citites/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(city_id):
+def deletes_city_route(city_id):
     """Deletes an object."""
     obj = storage.get(City, city_id)
     if obj is None:
@@ -46,7 +46,7 @@ def delete(city_id):
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
-def creates_instance(state_id):
+def creates_instance_city_route(state_id):
     """Creates a new object."""
     obj_attr = request.get_json()
     if obj_attr is None:
@@ -63,7 +63,7 @@ def creates_instance(state_id):
 
 
 @app_views.route('/citites/<city_id>', methods=['PUT'], strict_slashes=False)
-def update(city_id):
+def updates_city_route(city_id):
     """Updates an object."""
     obj = storage.get(City, city_id)
     if obj is None:

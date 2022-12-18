@@ -10,7 +10,7 @@ from flask import jsonify, make_response, request
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def retrieve_state_objs():
+def retrieve_state_objs_route():
     """Retrieves the list of all State objects."""
     objs = storage.all(State).values()
     objs_list = []
@@ -20,7 +20,7 @@ def retrieve_state_objs():
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def retrieve_state_objs_id(state_id):
+def retrieve_state_objs_id_route(state_id):
     """Retrieves the list of all State objects with a specified id."""
     obj = storage.get(State, state_id)
     if obj is None:
@@ -30,7 +30,7 @@ def retrieve_state_objs_id(state_id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(state_id):
+def deletes_state_route(state_id):
     """Deletes an object."""
     obj = storage.get(State, state_id)
     if obj is None:
@@ -41,7 +41,7 @@ def delete(state_id):
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
-def creates_instance():
+def creates_instance_state_route():
     """Creates a new object."""
     obj_attr = request.get_json()
     if obj_attr is None:
@@ -54,7 +54,7 @@ def creates_instance():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update(state_id):
+def updates_state_route(state_id):
     """Updates an object."""
     obj = storage.get(State, state_id)
     if obj is None:
