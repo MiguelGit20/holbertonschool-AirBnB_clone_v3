@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Create a new view for State objects
+Create a new view for User objects
 that handles all default RESTFul API actions.
 """
 from api.v1.views import app_views
