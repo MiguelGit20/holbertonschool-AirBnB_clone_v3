@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Create a new view for State objects
+Create a new view for Amenity objects
 that handles all default RESTFul API actions.
 """
 from api.v1.views import app_views
@@ -19,7 +19,8 @@ def retrieve_amenity_objs_route():
     return jsonify(objs_list)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>',
+                 methods=['GET'], strict_slashes=False)
 def retrieve_amenity_objs_id_route(amenity_id):
     """Retrieves the list of all amenity objects with a specified id."""
     obj = storage.get(Amenity, amenity_id)
@@ -53,7 +54,8 @@ def creates_instance_amenity_route():
     return make_response(jsonify(new_instance.to_dict()), 201)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>',
+                 methods=['PUT'], strict_slashes=False)
 def updates_amenities_route(amenity_id):
     """Updates an object."""
     obj = storage.get(Amenity, amenity_id)
