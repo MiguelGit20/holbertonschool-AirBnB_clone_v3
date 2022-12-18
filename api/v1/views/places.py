@@ -10,7 +10,8 @@ from models.city import City
 from flask import jsonify, make_response, request
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
+@app_views.route('/cities/<city_id>/places',
+                 methods=['GET', 'POST'], strict_slashes=False)
 def places_per_city(city_id=None):
     """Places route to handle http method for requested places by city."""
 
