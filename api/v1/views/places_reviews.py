@@ -26,24 +26,26 @@ def review_per_place(place_id):
         return jsonify(review_places)
 
     if request.method == 'POST':
-        place_obj = storage.get(Place, place_id)
-        if place_obj is None:
-            return make_response(jsonify({'error': 'Not found'}), 404)
+
         req_json = request.get_json()
         if req_json is None:
             return make_response(jsonify({'error': 'Not a JSON'}), 400)
-        user_id = req_json.get("user_id")
-        if user_id is None:
-            return make_response(jsonify({'error': 'Missing user_id'}), 400)
-        user_obj = storage.get(User, user_id)
-        if user_obj is None:
-            return make_response(jsonify({'error': 'Not found'}), 404)
-        if 'text' not in req_json:
-            return make_response(jsonify({'error': 'Missing text'}), 400)
+        else:
+            if 'text' not in req_json:
+                return make_response(jsonify({'error': 'Missing text'}), 400)
+            if 'user_id' not in req_json:
+                return make_response(jsonify({'error': 'Missing user_id'}), 400)
 
-        new_instance = Review(**req_json)
-        req_json.place_id = place_id
-        new_instance.save()
+        place_obj = storage.get(Place, place_id)
+        user_obj = storage.get(User, req_json['user_id'])
+
+        if place_obj is None or user_obj is None:
+            return make_response(jsonify({'error': 'Not found'}), 404)
+        else:
+            new_instance = Review(**req_json)
+            req_json.place_id = place_id
+            new_instance.save()
+
         return make_response(jsonify(new_instance.to_dict()), 201)
 
 
