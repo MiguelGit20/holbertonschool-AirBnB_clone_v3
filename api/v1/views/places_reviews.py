@@ -66,7 +66,7 @@ def create_place_review_route(place_id):
         return make_response(jsonify({'error': 'Not found'}), 404)
     else:
         new_instance = Review(**req_json)
-        req_json.place_id = place_id
+        new_instance.place_id = place_id
         new_instance.save()
 
     return make_response(jsonify(new_instance.to_dict()), 201)
