@@ -19,7 +19,7 @@ def places_per_city(city_id=None):
 
     if request.method == 'GET':
         all_places = storage.all(Place)
-        city_places = [obj.to_json() for obj in all_places.values()
+        city_places = [obj.to_dict() for obj in all_places.values()
                        if obj.city_id == city_id]
         return jsonify(city_places)
 
@@ -29,15 +29,14 @@ def places_per_city(city_id=None):
             return make_response(jsonify({'error': 'Not found'}), 404)
         user_id = req_json.get("user_id")
         if user_id is None:
-            return make_response(jsonify({'error': 'Not found'}), 404)
+            return make_response(jsonify({'error': 'Missing user_id'}), 404)
         user_obj = storage.get('User', user_id)
         if user_obj is None:
             return make_response(jsonify({'error': 'Not found'}), 404)
         if req_json.get("name") is None:
-            return make_response(jsonify({'error': 'Not found'}), 404)
-
-        req_json['city_id'] = city_id
+            return make_response(jsonify({'error': 'Missing name'}), 404)
         new_object = Place(**req_json)
+        new_object.city_id = city_id
         new_object.save()
         return make_response(jsonify(new_object.to_json()), 201)
 
