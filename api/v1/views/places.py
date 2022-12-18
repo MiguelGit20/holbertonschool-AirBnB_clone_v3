@@ -9,11 +9,10 @@ from models.place import Place
 from models.city import City
 from flask import jsonify, make_response, request
 
+
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
 def places_per_city(city_id=None):
-    """
-        places route to handle http method for requested places by city
-    """
+    """Places route to handle http method for requested places by city."""
     city_obj = storage.get(City, city_id)
     if city_obj is None:
         return make_response(jsonify({'error': 'Not found'}), 404)
@@ -42,6 +41,7 @@ def places_per_city(city_id=None):
         new_object.save()
         return make_response(jsonify(new_object.to_json()), 201)
 
+
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def retrieve_place_objs_id(place_id):
     """Retrieves the list of all Place objects with a specified id."""
@@ -53,7 +53,7 @@ def retrieve_place_objs_id(place_id):
 
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(place_id):
+def deletes_place_route(place_id):
     """Deletes an object."""
     obj = storage.get(Place, place_id)
     if obj is None:
@@ -64,7 +64,7 @@ def delete(place_id):
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
-def update(place_id):
+def updates_place_route(place_id):
     """Updates an object."""
     obj = storage.get(Place, place_id)
     if obj is None:
