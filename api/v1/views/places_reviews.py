@@ -11,7 +11,8 @@ from models.user import User
 from flask import jsonify, make_response, request
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews',
+                 methods=['GET', 'POST'], strict_slashes=False)
 def review_per_place(place_id):
     """Review route to handle http method for requested reviews by place."""
     place_obj = storage.get(Place, place_id)
@@ -34,7 +35,7 @@ def review_per_place(place_id):
         user_obj = storage.get(User, user_id)
         if user_obj is None:
             return make_response(jsonify({'error': 'Not found'}), 404)
-        if req_json.get("text") is None:
+        if 'text' not in req_json:
             return make_response(jsonify({'error': 'Missing text'}), 400)
 
         new_instance = Review(**req_json)
